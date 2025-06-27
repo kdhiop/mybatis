@@ -13,17 +13,23 @@ table.tbl-student{margin:10px auto;border:1px solid; border-collapse:collapse;}
 table.tbl-student th,table.tbl-student td{
 	border:1px solid;
 	padding:5px;
-	line-height: 2em; 
+	line-height: 2em;
 }
 table.tbl-student th{text-align:right;}
 table.tbl-student td{text-align:left;}
 table.tbl-student tr:last-of-type td:first-child{text-align:center;}
 </style>
+<script>
+	<c:if test="${not empty msg}">
+		alert("${msg}")
+		<c:remove var="msg"/>
+	</c:if>
+</script>
 </head>
 <body>
 	<div id="student-container">
 		<h2>학생정보 검색</h2>
-		<p>총 학생수는 ?명입니다.</p>
+		<p>총 학생수는 ${total}명입니다.</p>
 		<form>
 			<table class="tbl-student">
 				<tr>
@@ -40,8 +46,9 @@ table.tbl-student tr:last-of-type td:first-child{text-align:center;}
 			</table>
 		</form>
 		
-		<hr />
+		<br><hr />
 		
+		<c:if test="${not empty student}">
 		<h1>학생 정보 수정</h1>
 		<form 
 			name="studentUpdateFrm"
@@ -51,19 +58,19 @@ table.tbl-student tr:last-of-type td:first-child{text-align:center;}
 				<tr>
 					<th>학생번호</th>
 					<td>
-						<input type="number" name="no" value="" required readonly/>
+						<input type="number" name="no" value="${student.no}" required readonly/>
 					</td>
 				</tr>
 				<tr>
 					<th>학생이름</th>
 					<td>
-						<input type="text" name="name" value="" required/>
+						<input type="text" name="name" value="${student.name}" required/>
 					</td>
 				</tr>
 				<tr>
 					<th>학생전화번호</th>
 					<td>
-						<input type="tel" name="tel" value="" required/>
+						<input type="tel" name="tel" value="${student.tel}" required/>
 					</td>
 				</tr>
 				<tr>
@@ -74,6 +81,7 @@ table.tbl-student tr:last-of-type td:first-child{text-align:center;}
 				</tr>
 			</table>
 		</form>
+		</c:if>
 		<form method="POST" name="studentDelFrm" action="${pageContext.request.contextPath}/student/deleteStudent">
 			<input type="hidden" name="no" value="" />			
 		</form>
@@ -85,7 +93,7 @@ table.tbl-student tr:last-of-type td:first-child{text-align:center;}
 		};
 		</script>
 		
-		<hr />
+		<br><hr />
 		
 		<h2>학생 정보 조회(Map)</h2>
 		<form name="ajaxStudentSearchFrm">
